@@ -1,7 +1,5 @@
 package entity
 
-import "errors"
-
 type CEP struct {
 	Number string
 }
@@ -18,7 +16,7 @@ func NewCEP(cep string) (*CEP, error) {
 
 func (c *CEP) validateCEP() error {
 	if len(c.Number) != 8 {
-		return errors.New("invalid zipcode")
+		return ErrInvalidCEP
 	}
 	return nil
 }

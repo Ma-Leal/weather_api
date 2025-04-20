@@ -2,8 +2,11 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 
+	"github.com/Ma-Leal/weather/internal/entity"
 	"github.com/Ma-Leal/weather/internal/usecase"
 )
 
@@ -22,11 +25,21 @@ func (h *WeatherHandler) GetWeatherByCEPHandler(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	Weather, err := h.GetWeatherByCEP.Execute(cep)
+	weather, err := h.GetWeatherByCEP.Execute(cep)
+	fmt.Println(err)
+
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		switch {
+		case errors.Is(err, entity.ErrInvalidCEP):
+			http.Error(w, `{"error": "invalid zipcode"}`, http.StatusUnprocessableEntity)
+		case errors.Is(err, entity.ErrCEPNotFound):
+			http.Error(w, `{"error": "can not find zipcode"}`, http.StatusNotFound)
+		default:
+			http.Error(w, `{"error": "internal error"}`, http.StatusInternalServerError)
+		}
 		return
 	}
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(Weather)
+	json.NewEncoder(w).Encode(weather)
 }

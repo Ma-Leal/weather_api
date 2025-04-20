@@ -44,6 +44,10 @@ func (a *GetAddressByCEP) Execute(cep string) (*entity.Address, error) {
 		return nil, errors.New("unmarshal failed")
 	}
 
+	if r.City == "" {
+		return nil, entity.ErrCEPNotFound
+	}
+
 	add := entity.NewAddress(
 		c,
 		r.City,
