@@ -79,3 +79,12 @@ curl http://localhost:8080/?cep=01001000
 ```
 go test ./...
 ```
+
+---
+
+## 📮 Exemplo de produção
+
+O serviço está publicado em:  
+📡 `https://weather-api-3yqba4ytha-uc.a.run.app/?cep=01001000`
+
+---
