@@ -1,9 +1,18 @@
 version: "3.8"
 
 services:
-  weather-api:
+  service_a:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: cmd/service_a/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVICE_B_URL=http://weather:8080
+
+  weather:
+    build:
+      context: .
+      dockerfile: cmd/weather/Dockerfile
     ports:
       - "8080:8080"
