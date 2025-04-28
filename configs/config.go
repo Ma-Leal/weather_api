@@ -2,14 +2,14 @@ package configs
 
 import "github.com/spf13/viper"
 
-type conf struct {
+type Conf struct {
 	CepApiUrl     string `mapstructure:"cep_api_url"`
 	WeatherApiUrl string `mapstructure:"weather_api_url"`
 	WeatherApiKey string `mapstructure:"weather_api_key"`
 }
 
-func LoadConfig(path string) (*conf, error) {
-	var cfg *conf
+func LoadConfig(path string) (*Conf, error) {
+	var cfg *Conf
 	viper.SetConfigName("app_config")
 	viper.SetConfigType("env")
 	viper.AddConfigPath(path)
